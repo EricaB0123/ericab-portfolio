@@ -1,7 +1,6 @@
 # Designing Alert Logic That Matches Job Purpose
 
-Alerting only works when it reflects the real behaviour and purpose of a job.  
-When alerts fire without context, or when different teams interpret the same alert differently, it creates noise, confusion, and unnecessary escalations.
+Alerting only works when it has a clear purpose and reflects what the job or system is actually doing. When an alert fires without context — or when different teams interpret the same alert differently — it creates unnecessary noise, confusion, and escalations. Instead of helping, it adds more work because people end up trying to silence or reduce the alert rather than understand the behaviour behind it. The focus shifts from fixing the real issue to managing repetitive tasks.
 
 This write‑up explains how I approach designing alert logic that is meaningful, accurate, and aligned across teams.
 
@@ -9,14 +8,24 @@ This write‑up explains how I approach designing alert logic that is meaningful
 
 ## 🎯 1. Start With the Job’s Actual Purpose
 
-Before designing or adjusting alert logic, I clarify:
+When I’m designing alert logic, I always start by understanding the workload itself. Before adding or adjusting any alert, I ask a few basic questions:
 
-- What is this job meant to do?
-- What does “healthy” behaviour look like?
-- What does “unhealthy” behaviour look like?
-- What outcome matters to the business or downstream teams?
+What is this job actually meant to do?  
+If I don’t understand the purpose, the alert will never match the behaviour.
 
-If the alert doesn’t match the purpose, it will always create noise.
+What does “healthy” behaviour look like?  
+Normal duration, normal resource usage, normal dependencies.
+
+What does “unhealthy” behaviour look like?  
+Failures, delays, upstream issues, unusual patterns.
+
+What outcome matters to the business or downstream teams?  
+Alerts should reflect impact, not just noise.
+
+Do we even need an alert here, or can we improve the workload instead?  
+Sometimes the right answer isn’t a new alert — it’s fixing the job, the dependency, or the pattern behind it.
+
+These questions help me design alerts that reflect real behaviour instead of adding more noise.
 
 ---
 
@@ -35,25 +44,22 @@ For example:
 A job may run “long” but still complete successfully.  
 If the alert fires simply because of duration, teams receive conflicting messages:
 
-- Dev sees the job completed  
-- Ops sees an alert  
+- Dev sees the job completed but is tired of getting the alert.
+- Ops sees an alert and assumes monitoring purply on durations is enough.
 - Both teams assume the other is wrong  
 
-This is a design problem, not a performance problem.
+This is a design problem, and doesn't highlight the purpose of the alert
 
 ---
 
 ## 🧩 3. Align Expectations Across Teams
 
-Alert logic must be agreed on by:
+Alert logic only works when everyone involved has the same understanding of what the alert means and why it exists. Different teams often have different expectations, so the alert needs to reflect a shared view of what “important” looks like.
 
-- the team that owns the job  
-- the team that supports the platform  
-- the team that receives the alert  
+- The alert logic still needs to meet the expectations of the teams who rely on it.
+- The expectations of an alert should be reviewed regularly. An alert that made sense two years ago might have been a temporary workaround, and the workload may now be better represented with a different type of signal or a different format.
 
-If one team wants the alert suppressed and another wants visibility, the alert will never serve its purpose.
-
-I make sure expectations are aligned before changing thresholds or logic.
+If the alert no longer matches how the job behaves or what the teams care about, it 
 
 ---
 
